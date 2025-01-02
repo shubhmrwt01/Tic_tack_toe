@@ -61,21 +61,36 @@ const showWinner=(winner)=>{
     disabledBoxes();
 
 }
-const checkWinner=()=>{
-    for(pattern of winPatterns){
-     
-    let post1val=boxes[pattern[0]].innerText;
-    let post2val=boxes[pattern[1]].innerText;
-    let post3val=boxes[pattern[2]].innerText;
+const checkWinner = () => {
+    let allFilled = true; 
+    for (let pattern of winPatterns) {
+        let post1val = boxes[pattern[0]].innerText;
+        let post2val = boxes[pattern[1]].innerText;
+        let post3val = boxes[pattern[2]].innerText;
 
-    if(post1val !="" && post2val !="" && post3val!=""){
-        if(post1val === post2val && post2val===post3val){
-            console.log("Winner",post1val);
-            showWinner(post1val);
+        if (post1val !== "" && post2val !== "" && post3val !== "") {
+            if (post1val === post2val && post2val === post3val) {
+                console.log("Winner", post1val);
+                showWinner(post1val);
+                return; 
+            }
         }
     }
+
+    for (let box of boxes) {
+        if (box.innerText === "") {
+            allFilled = false;
+            break; 
+        }
     }
-}
+
+    if (allFilled) {
+        msg.innerText = "It's a Tie!";
+        msgContainer.classList.remove("hide");
+        disabledBoxes();
+    }
+};
+
 newGameBtn.addEventListener("click",resetGame);
 resetBtn.addEventListener("click",resetGame);
 
